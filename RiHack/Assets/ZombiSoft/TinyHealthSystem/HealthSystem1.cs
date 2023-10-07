@@ -12,9 +12,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthSystem : MonoBehaviour
+public class HealthSystem1 : MonoBehaviour
 {
-	public static HealthSystem Instance;
+	public static HealthSystem1 Instance;
 
 	public Image currentHealthBar;
 	public Image currentHealthGlobe;
@@ -182,8 +182,8 @@ public class HealthSystem : MonoBehaviour
 	{
 		UpdateHealthBar();
 		UpdateHealthGlobe();
-		//UpdateManaBar();
-		//UpdateManaGlobe();
+		UpdateManaBar();
+		UpdateManaGlobe();
 	}
 
 	//==============================================================

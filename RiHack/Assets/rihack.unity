@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59dd935f2f18c884cbed5f2c252ec121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepText: {fileID: 0}
+  stepText: {fileID: 525760331}
   _cursteps: 500
   _goal: 1000
   skripta: {fileID: 550859348}
@@ -404,8 +404,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -144.183, y: 749.442}
-  m_SizeDelta: {x: 603.335, y: 282.477}
+  m_AnchoredPosition: {x: -64.243546, y: 749.442}
+  m_SizeDelta: {x: 763.2139, y: 282.477}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &114422651
 MonoBehaviour:
@@ -522,7 +522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 53}
+  m_AnchoredPosition: {x: -170, y: 53}
   m_SizeDelta: {x: 320, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &550859348 stripped
