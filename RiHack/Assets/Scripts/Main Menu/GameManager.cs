@@ -15,34 +15,42 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_InputField ageInput;
     [SerializeField] private TextMeshProUGUI[] statsTexts;
 
-    public void SetupStats(int height, int weight, int age, int gender)
+    public void SetupStats(float height, float weight, float age, int gender)
     {
         // Define average values based on gender
-        int heightAverage = (gender == 1) ? 175 : 162;
-        int weightAverage = (gender == 1) ? 90 : 77;
+        float heightAverage = (gender == 1) ? 175 : 162;
+        float weightAverage = (gender == 1) ? 90 : 77;
 
         // Calculate BMI for the character and average BMI
-        float BMIAverage = (float)weightAverage / (heightAverage * heightAverage);
-        float BMI = (float)weight / (height * height);
+        float BMIAverage = weightAverage / (heightAverage * heightAverage);
+        float BMI = weight / (height * height);
 
         // Calculate and set Health
-        float Health = Mathf.Round(((BMI / BMIAverage) * 10) * 10);
-        PlayerPrefs.SetFloat("Health", Health);
+        int Health = ((int)(BMI / BMIAverage * 100));
+        Health -= (int)(age * 0.2f);
+        Health = Mathf.Abs(Health);
+        PlayerPrefs.SetInt("Health", Health);
         statsTexts[0].text = Health.ToString();
 
         // Calculate and set Strength
-        float Strength = Mathf.Round(age * (1f / gender * 2) * 10);
-        PlayerPrefs.SetFloat("Strength", Strength);
+        int Strength = ((int)((BMI / BMIAverage * 100) / gender));
+        Strength += (int)(age * 0.2f);
+        Strength = Mathf.Abs(Strength);
+        PlayerPrefs.SetInt("Strength", Strength);
         statsTexts[1].text = Strength.ToString();
 
         // Calculate and set Speed
-        float Speed = Mathf.Round(((1f / age) * gender * 100)*10);
-        PlayerPrefs.SetFloat("Speed", Speed);
+        int Speed = (int)((height / heightAverage - weight / weightAverage * 0.3f) * 100 * gender);
+        Speed -= (int)(age * 0.2f);
+        Speed = Mathf.Abs(Speed);
+        PlayerPrefs.SetInt("Speed", Speed);
         statsTexts[2].text = Speed.ToString();
 
         // Calculate and set Damage
-        float Damage = Mathf.Round(((weight / (float)weightAverage) * (age / 100f) * 100) * 10);
-        PlayerPrefs.SetFloat("Damage", Damage);
+        int Damage = (int)(((height / heightAverage + weight / weightAverage) / 1.8f) * 100 / gender);
+        Damage += (int)(age * 0.2f);
+        Damage = Mathf.Abs(Damage);
+        PlayerPrefs.SetInt("Damage", Damage);
         statsTexts[3].text = Damage.ToString();
     }
 
@@ -100,7 +108,7 @@ public class GameManager : MonoBehaviour
 
     public void ApplyChangedSettings()
     {
-        SetupStats(PlayerPrefs.GetInt("Height", 0), PlayerPrefs.GetInt("Weight", 0), PlayerPrefs.GetInt("Age", 0), PlayerPrefs.GetInt("Gender", 0));
+        SetupStats(PlayerPrefs.GetInt("Height", 1), PlayerPrefs.GetInt("Weight", 1), PlayerPrefs.GetInt("Age", 1), PlayerPrefs.GetInt("Gender", 1));
     }
 
     public void StartGame()
@@ -125,7 +133,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            SetupStats(PlayerPrefs.GetInt("Height",0), PlayerPrefs.GetInt("Weight", 0), PlayerPrefs.GetInt("Age", 0), PlayerPrefs.GetInt("Gender", 0));
+            SetupStats(PlayerPrefs.GetInt("Height", 1), PlayerPrefs.GetInt("Weight", 1), PlayerPrefs.GetInt("Age", 1), PlayerPrefs.GetInt("Gender", 1));
         }
     }
 }
