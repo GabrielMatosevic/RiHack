@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using PedometerU;
+using System;
 
 public class setsteps : MonoBehaviour
 {
@@ -21,9 +22,11 @@ public class setsteps : MonoBehaviour
     }
     private void OnStep (int steps, double distance) {
         // Display the step count
+        Console.WriteLine("User has taken " + steps + " steps and traveled " + distance + " meters");
         stepText.text = steps.ToString();
         _cursteps += 1;
         HealthSystem hs = skripta.GetComponent<HealthSystem>();
         hs.hitPoint=_cursteps;
+        hs.hitPoint = 1000;
     }
 }
