@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -102,6 +103,10 @@ public class GameManager : MonoBehaviour
         SetupStats(PlayerPrefs.GetInt("Height", 0), PlayerPrefs.GetInt("Weight", 0), PlayerPrefs.GetInt("Age", 0), PlayerPrefs.GetInt("Gender", 0));
     }
 
+    public void StartGame()
+    {
+        SceneManager.LoadScene(1);
+    }
     private void Awake()
     {
         //Check gender, 0 is none, 1 is male, 2 is female
