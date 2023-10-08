@@ -18,6 +18,7 @@ public class StepCounter : MonoBehaviour
     {
         currentSteps = PlayerPrefs.GetInt("Steps", 0);
         stepText.text = currentSteps.ToString();
+        stepTextLevelSelect.text = currentSteps.ToString();
         pedometer = new Pedometer(OnStep);
     }
 
@@ -25,6 +26,7 @@ public class StepCounter : MonoBehaviour
     {
         currentSteps += 1;
         stepText.text = currentSteps.ToString();
+        stepTextLevelSelect.text = currentSteps.ToString();
     }
 
     void OnApplicationQuit()

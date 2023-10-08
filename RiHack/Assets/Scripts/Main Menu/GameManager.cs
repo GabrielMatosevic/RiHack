@@ -111,12 +111,11 @@ public class GameManager : MonoBehaviour
         SetupStats(PlayerPrefs.GetInt("Height", 1), PlayerPrefs.GetInt("Weight", 1), PlayerPrefs.GetInt("Age", 1), PlayerPrefs.GetInt("Gender", 1));
     }
 
-    public void StartGame()
-    {
-        SceneManager.LoadScene(1);
-    }
     private void Awake()
     {
+        //For testing purposes
+        PlayerPrefs.SetInt("Steps", 10000);
+
         //Check gender, 0 is none, 1 is male, 2 is female
         int gender = PlayerPrefs.GetInt("Gender", 0);
         if (gender != 0)
