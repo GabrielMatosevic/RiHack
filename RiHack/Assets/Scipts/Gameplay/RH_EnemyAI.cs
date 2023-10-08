@@ -1,13 +1,16 @@
 using System;
 using System.Collections;
+using RH.Gameplay.Player;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class RH_EnemyAI : MonoBehaviour
 {
-    [SerializeField] private Transform waypoint1;        // The first waypoint object
-    [SerializeField] private Transform waypoint2;        // The second waypoint object
-    [SerializeField] private float     moveSpeed = 2.0f; // Speed at which the enemy moves
+    [SerializeField] private Transform waypoint1; // The first waypoint object
+    [SerializeField] private Transform waypoint2; // The second waypoint object
+    [SerializeField] private int       m_dealDamage = 25;
+    [SerializeField] private int       m_health     = 150;
+    [SerializeField] private float     moveSpeed    = 2.0f; // Speed at which the enemy moves
 
     private Transform      currentWaypoint;  // The current waypoint the enemy is moving towards
     private SpriteRenderer m_spriteRenderer; // Reference to the SpriteRenderer component
@@ -79,7 +82,7 @@ public class RH_EnemyAI : MonoBehaviour
                     }
 
                     distance = Vector2.Distance(transform.position, m_playerReference.transform.position);
-                    if (distance < 2f)
+                    if (distance < 1.5f)
                     {
                         m_animator.SetTrigger("isAttacking");
                     }
@@ -89,6 +92,8 @@ public class RH_EnemyAI : MonoBehaviour
                                             (moveSpeed + 2) * Time.deltaTime);
                 }
             }
+            
+            if (m_health <= 0) Destroy(gameObject);
 
             yield return null; // Yield to the next frame
         }
@@ -123,5 +128,19 @@ public class RH_EnemyAI : MonoBehaviour
     void AnimationComplete()
     {
         isAnimationPlaying = false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player") && isAnimationPlaying)
+        {
+            print("GAY E");
+            m_playerReference.GetComponent<RH_Player>().DealDamage(m_dealDamage);
+        }
+    }
+
+    protected internal void DealDamage(int amount)
+    {
+        m_health -= amount;
     }
 }

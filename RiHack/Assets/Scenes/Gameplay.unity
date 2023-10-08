@@ -544,6 +544,7 @@ MonoBehaviour:
   moveSpeed: 2
   m_playerReference: {fileID: 0}
   m_isFollowingPlayer: 0
+  m_animator: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
