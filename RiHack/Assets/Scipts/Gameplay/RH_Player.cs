@@ -9,14 +9,26 @@ namespace RH.Gameplay.Player
     public class RH_Player : MonoBehaviour
     {
         [SerializeField] private InventorySystem m_InventorySystem;
-        [SerializeField] private float           m_speed = 5f;
         [SerializeField] private Animator        m_PlayerAnimator;
+
+        private bool isAnimationPlaying = false;
+
+        [SerializeField] private int m_damage;
+        [SerializeField] private int m_health;
+        [SerializeField] private int m_strength;
+        [SerializeField] private float m_speed;
+        
 
         // Start is called before the first frame update
         void Start()
         {
             m_InventorySystem = GetComponent<InventorySystem>();
             m_PlayerAnimator  = GetComponent<Animator>();
+
+            m_damage   = PlayerPrefs.GetInt("Damage");
+            m_health   = PlayerPrefs.GetInt("Health");
+            m_speed    = PlayerPrefs.GetInt("Speed") / 10f;
+            m_strength = PlayerPrefs.GetInt("Strength");
         }
 
         private void Update()
@@ -46,14 +58,12 @@ namespace RH.Gameplay.Player
 
                     if (isPressed)
                     {
-                        isMoving =  true;
-                        m_speed  = 7.5f;
+                        isMoving = true;
                     }
                 }
             }
             else
             {
-                m_speed = 0f;
                 m_PlayerAnimator.SetTrigger("isAttacking");
             }
             
@@ -71,5 +81,33 @@ namespace RH.Gameplay.Player
                 Destroy(other.gameObject);
             }
         }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            
+            if (other.gameObject.CompareTag("Enemy") && isAnimationPlaying)
+            {
+                print("GAY P");
+                other.gameObject.GetComponent<RH_EnemyAI>().DealDamage(m_damage + m_strength);
+            }
+        }
+        
+
+        protected internal void DealDamage(int amount)
+        {
+            m_health -= amount;
+        }
+
+        void StartAnimation()
+        {
+            isAnimationPlaying = true;
+            // Play the animation here
+        }
+
+        void AnimationComplete()
+        {
+            isAnimationPlaying = false;
+        }
     }
 }
+
