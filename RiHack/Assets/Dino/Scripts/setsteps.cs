@@ -29,7 +29,7 @@ public class setsteps : MonoBehaviour
         _cursteps += 1;
         HealthSystem hs = skripta.GetComponent<HealthSystem>();
         hs.hitPoint=_cursteps;
-        //hs.hitPoint = 1000;
+        hs.hitPoint = 1000;
     }
     private void OnDisable(){
         pedometer.Dispose();
