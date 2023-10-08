@@ -9,6 +9,7 @@ using UnityEngine.Android;
 public class StepCounter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI stepText;
+    [SerializeField] private TextMeshProUGUI stepTextLevelSelect;
 
     private Pedometer pedometer;
     private int currentSteps;
