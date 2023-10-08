@@ -9,6 +9,7 @@ namespace RH.Gameplay.Player
     public class RH_Player : MonoBehaviour
     {
         [SerializeField] private InventorySystem m_InventorySystem;
+        [SerializeField] private FixedJoystick   m_FixedJoystick;
         [SerializeField] private Animator        m_PlayerAnimator;
 
         private bool isAnimationPlaying = false;
@@ -17,6 +18,10 @@ namespace RH.Gameplay.Player
         [SerializeField] private int m_health;
         [SerializeField] private int m_strength;
         [SerializeField] private float m_speed;
+
+        private string[] boolNames = { "isUp", "isDown", "isLeft", "isRight" };
+
+
         
 
         // Start is called before the first frame update
@@ -33,42 +38,45 @@ namespace RH.Gameplay.Player
 
         private void Update()
         {
-            //PLACEHOLDER FOR PC
-            // Define keycodes for the four directions
-            KeyCode[] directionKeys = { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D };
+            float horizontalInput = m_FixedJoystick.Horizontal;
+            float verticalInput   = m_FixedJoystick.Vertical;
 
-            // Define corresponding bool variable names
-            string[] boolNames = { "isUp", "isDown", "isLeft", "isRight" };
+            // Determine the direction based on joystick input
+            int directionIndex = -1; // Initialize to an invalid index
 
-            bool isMoving = false;
-
-            if (!Input.GetMouseButtonDown(0))
+            if (Mathf.Abs(horizontalInput) > Mathf.Abs(verticalInput))
             {
-                transform.position =
-                    new Vector2(transform.position.x + m_speed * Time.deltaTime * Input.GetAxis("Horizontal"),
-                                transform.position.y + m_speed * Time.deltaTime * Input.GetAxis("Vertical"));
-            
-                // Loop through the direction keys
-                for (int i = 0; i < directionKeys.Length; i++)
-                {
-                    // Set the bool variable based on key press
-                    bool isPressed = Input.GetKey(directionKeys[i]);
-
-                    m_PlayerAnimator.SetBool(boolNames[i], isPressed);
-
-                    if (isPressed)
-                    {
-                        isMoving = true;
-                    }
-                }
+                // Horizontal input is stronger, so set left or right
+                directionIndex = (horizontalInput > 0) ? 3 : 2;
             }
             else
             {
+                // Vertical input is stronger, so set up or down
+                directionIndex = (verticalInput > 0) ? 0 : 1;
+            }
+
+            // Set animator bools based on the direction
+            for (int i = 0; i < boolNames.Length; i++)
+            {
+                m_PlayerAnimator.SetBool(boolNames[i], i == directionIndex);
+            }
+
+            // Check for attack input
+            if (!Input.GetMouseButtonDown(0))
+            {
+                // Move the player based on joystick input
+                transform.position += new Vector3(horizontalInput * m_speed * Time.deltaTime,
+                                                  verticalInput * m_speed * Time.deltaTime, 0);
+
+                // Set the "isRunning" animator bool based on joystick input
+                m_PlayerAnimator.SetBool("isRunning",
+                                         Mathf.Abs(horizontalInput) > 0.1f || Mathf.Abs(verticalInput) > 0.1f);
+            }
+            else
+            {
+                // Trigger the attack animation
                 m_PlayerAnimator.SetTrigger("isAttacking");
             }
-            
-            m_PlayerAnimator.SetBool("isRunning", isMoving);
-
         }
 
 
