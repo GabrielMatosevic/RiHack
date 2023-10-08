@@ -17,6 +17,7 @@ public class StepCounter : MonoBehaviour
     public void Awake()
     {
         currentSteps = PlayerPrefs.GetInt("Steps", 0);
+        stepText.text = currentSteps.ToString();
         pedometer = new Pedometer(OnStep);
     }
 
